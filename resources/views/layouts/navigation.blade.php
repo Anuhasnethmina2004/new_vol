@@ -17,25 +17,47 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('profile.edit',Auth::user()->id)" :active="Str::contains(url()->current(), 'profile')">
+                        {{ __('Profile') }}
+                    </x-nav-link>
+                </div>
+                @if(Auth::user()->is_admin==1||Auth::user()->is_admin==2) 
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('projects.index')" :active="Str::contains(url()->current(), 'projects')">
                         {{ __('Projects') }}
                     </x-nav-link>
                 </div>
+                @endif
+                @if (Auth::user() && (Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2))
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('report.organization')" :active="request()->routeIs('report.organization')">
+                        {{ __('Organization Report') }}
+                    </x-nav-link>
+                </div>
+            @endif
+
+            @if (Auth::user() && (Auth::user()->is_admin == 0 || Auth::user()->is_admin == 2))
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('report.userreport')" :active="request()->routeIs('report.userreport')">
+                    {{ __('volunteer Report') }}
+                </x-nav-link>
+            </div>
+        @endif
+            
+                @if(Auth::user()->is_admin==1) 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Abilities') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('labels.index')" :active="request()->routeIs('labels.index')">
-                        {{ __('Labels') }}
-                    </x-nav-link>
-                </div>
+                
+                
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Users') }}
                     </x-nav-link>
                 </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -43,7 +65,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div>{{ Auth::user()->name ??''}}</div>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -98,8 +120,8 @@
                 </div>
 
                 <div class="ml-3">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name ??''}}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email ??''}}</div>
                 </div>
             </div>
 

@@ -1,0 +1,5 @@
+First install PHP 8.3.4 (cli) (built: Mar 13 2024 11:43:12) (ZTS Visual C++ 2019 x64)
+After that create database and add database details to.env file
+run composer install/composer update
+then run php artisan migrate
+After that run php artisan serve

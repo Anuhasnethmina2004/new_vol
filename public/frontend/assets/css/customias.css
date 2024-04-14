@@ -1,0 +1,584 @@
+html.lenis {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  html.wf-loading * {
+      opacity: 0;
+  }
+  .line{
+  overflow:hidden;
+  }
+  #stagger-wrapper{
+  overflow:hidden;
+  }
+  .infinite-loop__collection-wrapper {
+    -webkit-animation: logoloop 30s linear infinite;
+    -moz-animation: logoloop 30s linear infinite;
+    -o-animation: logoloop 30s linear infinite;
+	}
+	.infinite-loop:hover .infinite-loop__collection-wrapper,
+  .infinite-loop:focus-within .infinite-loop__collection-wrapper {
+  	-webkit-animation-play-state: paused;
+    -moz-animation-play-state: paused;
+    -o-animation-play-state: paused;
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion) {
+    .infinite-loop__collection-wrapper {
+      -webkit-animation-play-state: paused;
+      -moz-animation-play-state: paused;
+      -o-animation-play-state: paused;
+      animation-play-state: paused;
+    }
+  }
+	@-webkit-keyframes logoloop {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  @-moz-keyframes logoloop {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  @-o-keyframes logoloop {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes logoloop {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  html {
+    box-sizing: border-box !important;
+  }
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+   box-sizing: inherit;
+  }
+  .acc-container {
+    max-width: auto;
+    width: auto;
+  }
+  .acc {
+    margin-bottom: 10px;
+  }
+  .tab-head {
+    position: relative;
+    cursor: pointer;
+  }
+.tab-head::before,
+ .tab-head::after {
+  content: '';
+  position: absolute;
+  transition: all .3s;
+  content: '';
+  right: 20px;
+  top: 50%;
+  transform: translate(0%, -50%);
+  width: 36px;
+  height: 36px;
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+ }
+ .tab-head::before {
+   opacity:1;
+   background-image:url(https://uploads-ssl.webflow.com/642a7e1d3011422375748ca7/642a7e1d301142abe9748cd2_icon_plus.svg);
+}
+/*.acc-head.active::after {
+    opacity:1;
+  transition: all .3s;
+    background-image:url(https://uploads-ssl.webflow.com/62aae945631332d397a8bcc2/62f63ba51f141bbf55e93dbe_blue-minus.svg);
+ }*/
+.tab-head.active::before {
+  transition: all .3s;
+  opacity:1;
+  transform-origin: center;
+  transform: rotate(45deg) translate(-35%, -35%);
+ }
+.tab-content {
+  display: none;
+ }
+ .splide__track {
+    overflow: visible;
+  }
+  .splide__pagination{
+      display:block;
+  }
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+      width: auto;
+  }
+  </style>
+    <style>
+  .slider-main_button.is-disabled {
+      opacity: 0.3;
+    pointer-events: none;
+  }
+  .slider-main_arrow.is-disabled {
+      background-color: #1a1a1a;
+    color: #464646;
+  }
+  .swiper-slide.is-active .slider-main_text-wrapper {
+      font-size: 2em;
+  }
+  .swiper-slide.is-active .slider-main_img {
+      transform: scale(1.2);
+  }
+  textarea:focus, input:focus, select:focus{
+      outline: none;
+  }
+  .checkbox-group {
+      margin-bottom: 0.6875rem;
+    }
+  .checkbox-group input {
+      padding: 0;
+      height: initial;
+      width: initial;
+      margin-bottom: 0;
+      display: none;
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      position: relative;
+      cursor: pointer;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      font-family: Inter;
+      color: #344054;
+    }
+    .checkbox-group label:before {
+      content: "";
+      -webkit-appearance: none;
+      background-color: transparent;
+      border: 2px solid #5A00C8;
+      border-radius: 2px;
+      padding: 7px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      cursor: pointer;
+      margin-right: 12px;
+    }
+    .checkbox-group input:checked + label:before {
+      background-color: #5A00C8;
+    }
+    .checkbox-group input:checked + label:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 4px;
+      left: 7px;
+      width: 4px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 1px 1px 0;
+      transform: rotate(45deg);
+    }
+    .sort-input {
+      padding: 10px 12px 10px 12px;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: Inter;
+      color: #344054;
+      border: 1px solid #cecece;
+      border-radius: 4px;
+    }
+    .switch-checkbox {
+      height: 0;
+      width: 0;
+      visibility: hidden;
+    }
+    .switch-label {
+      cursor: pointer;
+      text-indent: -9999px;
+      width: 44px;
+      height: 24px;
+      background: #b7b7b7;
+      display: block;
+      border-radius: 100px;
+      position: relative;
+      margin-bottom: 0px;
+    }
+    .switch-label:after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 5px;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 90px;
+      transition: 0.3s;
+    }
+    .switch-checkbox:checked + .switch-label {
+      background: #5a00c8;
+    }
+    .switch-checkbox:checked + .switch-label:after {
+      left: calc(100% - 5px);
+      transform: translateX(-100%);
+    }
+    .switch-label:active:after {
+      width: 44px;
+    }
+      /*@media only screen and (max-width: 568px) {
+      .switch-label {
+        width: 30px;
+        height: 16px;
+      }
+      .switch-label:after {
+        width: 10px;
+        height: 10px;
+        top: 3px;
+        left: 3px;
+      }
+      .switch-label:active:after {
+        width: 30px;
+      }
+    }*/
+    .toggle-btn-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    .switch-checkbox-installment {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+      }
+      .switch-label-installment {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 44px;
+        height: 24px;
+        background: #b7b7b7;
+        display: block;
+        border-radius: 100px;
+        position: relative;
+        margin-bottom: 0px;
+      }
+      .switch-label-installment:after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 5px;
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        border-radius: 90px;
+        transition: 0.3s;
+      }
+      .switch-checkbox-installment:checked + .switch-label-installment {
+        background: #000000;
+      }
+      .switch-checkbox-installment:checked + .switch-label-installment:after {
+        left: calc(100% - 5px);
+        transform: translateX(-100%);
+      }
+      .switch-label-installment:active:after {
+        width: 44px;
+      }
+  </style>
+    <!--  accordian with image rotate  -->
+    <style>
+    ,
+    ::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: inherit;
+    }
+    .acc-container1 {
+      width: 100%;
+    }
+    .acc1 {
+      /* padding-top: 2rem;
+      padding-bottom: 1rem; */
+    }
+    .acc-head1 {
+      position: relative;
+      cursor: pointer;
+      padding: 1.5rem;
+    }
+    .acc-head1::before,
+    .acc-head1::after {
+      content: "";
+      position: absolute;
+      transition: all 0.3s;
+      content: "";
+      right: 20px;
+      top: 50%;
+      transform: translate(0%, -50%);
+      width: 24px;
+      height: 24px;
+      display: block;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      transform-origin: center;
+    }
+    .acc-head1::before {
+      opacity: 1;
+      background-image: url(https://uploads-ssl.webflow.com/65dec3294f5357107c3effdf/65e55eccfe545c4ba0bdd115_chevron-down.svg);
+    }
+    /* .acc-head1.active::after {
+      opacity: 1;
+      transition: all 0.3s;
+      background-image: url(https://uploads-ssl.webflow.com/64784e87c84961550c2e5f1c/64e71ea4a1339301140d0fe5_Frame%201.svg);
+    } */
+    .acc-head1.active::before {
+      transition: all 0.3s;
+      opacity: 1;
+      transform-origin: center;
+      transform: rotate(-180deg) translate(-35%, -35%);
+    }
+    .acc-content1 {
+      display: none;
+    }
+    html {
+      box-sizing: border-box !important;
+    }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: inherit;
+    }
+    .acc-container {
+      max-width: auto;
+      width: auto;
+    }
+    .acc {
+      margin-bottom: 12px;
+    }
+    .acc-head {
+      padding-bottom: 12px;
+      position: relative;
+      cursor: pointer;
+    }
+    .acc-content {
+      padding-bottom: 12px;
+      display: none;
+    }
+     input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      transition: all 0.3s ease;
+    }
+    input:hover {
+      border-color: #4d1114;
+    }
+    input:focus {
+      border-color: #4d1114;
+      outline: none;
+    }
+  </style>
+  </head>
+  <body data-barba="wrapper">
+    <div class="page-wrapper">
+      <div class="global-styles w-embed">
+        <style>
+  /* Make text look crisper and more legible in all browsers */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  /* Focus state style for keyboard navigation for the focusable elements */
+  *[tabindex]:focus-visible,
+    input[type="file"]:focus-visible {
+     outline: 0.125rem solid #4d65ff;
+     outline-offset: 0.125rem;
+  }
+  /* Get rid of top margin on first element in any rich text element */
+  .w-richtext > :not(div):first-child, .w-richtext > div:first-child > :first-child {
+    margin-top: 0 !important;
+  }
+  /* Get rid of bottom margin on last element in any rich text element */
+  .w-richtext>:last-child, .w-richtext ol li:last-child, .w-richtext ul li:last-child {
+      margin-bottom: 0 !important;
+  }
+  /*
+  .pointer-events-off {
+      pointer-events: none;
+  }
+  .pointer-events-on {
+    pointer-events: auto;
+  }
+  */
+  /* Create a class of .div-square which maintains a 1:1 dimension of a div */
+  .div-square::after {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+  }
+  /* Make sure containers never lose their center alignment */
+  .container-medium,.container-small, .container-large {
+      margin-right: auto !important;
+    margin-left: auto !important;
+  }
+  /* 
+  Make the following elements inherit typography styles from the parent and not have hardcoded values. 
+  Important: You will not be able to style for example "All Links" in Designer with this CSS applied.
+  Uncomment this CSS to use it in the project. Leave this message for future hand-off.
+  */
+  /*
+  a,
+  .w-input,
+  .w-select,
+  .w-tab-link,
+  .w-nav-link,
+  .w-dropdown-btn,
+  .w-dropdown-toggle,
+  .w-dropdown-link {
+    color: inherit;
+    text-decoration: inherit;
+    font-size: inherit;
+  }
+  */
+  /* Apply "..." after 3 lines of text */
+  .text-style-3lines {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+  }
+  /* Apply "..." after 2 lines of text */
+  .text-style-2lines {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+  }
+  /* Adds inline flex display */
+  .display-inlineflex {
+    display: inline-flex;
+  }
+  /* These classes are never overwritten */
+  .hide {
+    display: none !important;
+  }
+  @media screen and (max-width: 991px), 
+    @media screen and (max-width: 767px), 
+    @media screen and (max-width: 479px){
+      .hide, .hide-tablet{
+        display: none !important;
+      }
+    }
+    @media screen and (max-width: 767px)
+      .hide-mobile-landscape{
+        display: none !important;
+      }
+    }
+    @media screen and (max-width: 479px)
+      .hide-mobile{
+        display: none !important;
+      }
+    }
+  .margin-0 {
+    margin: 0rem !important;
+  }
+  .padding-0 {
+    padding: 0rem !important;
+  }
+  .spacing-clean {
+  padding: 0rem !important;
+  margin: 0rem !important;
+  }
+  .margin-top {
+    margin-right: 0rem !important;
+    margin-bottom: 0rem !important;
+    margin-left: 0rem !important;
+  }
+  .padding-top {
+    padding-right: 0rem !important;
+    padding-bottom: 0rem !important;
+    padding-left: 0rem !important;
+  }
+  .margin-right {
+    margin-top: 0rem !important;
+    margin-bottom: 0rem !important;
+    margin-left: 0rem !important;
+  }
+  .padding-right {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+    padding-left: 0rem !important;
+  }
+  .margin-bottom {
+    margin-top: 0rem !important;
+    margin-right: 0rem !important;
+    margin-left: 0rem !important;
+  }
+  .padding-bottom {
+    padding-top: 0rem !important;
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
+  }
+  .margin-left {
+    margin-top: 0rem !important;
+    margin-right: 0rem !important;
+    margin-bottom: 0rem !important;
+  }
+  .padding-left {
+    padding-top: 0rem !important;
+    padding-right: 0rem !important;
+    padding-bottom: 0rem !important;
+  }
+  .margin-horizontal {
+    margin-top: 0rem !important;
+    margin-bottom: 0rem !important;
+  }
+  .padding-horizontal {
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
+  }
+  .margin-vertical {
+    margin-right: 0rem !important;
+    margin-left: 0rem !important;
+  }
+  .padding-vertical {
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
+  }
+  .fixed {
+      position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .safari-border-radius{ -webkit-mask-image: -webkit-radial-gradient(white, black); }
+  [safari-border-radius]{ -webkit-mask-image: -webkit-radial-gradient(white, black); }
+
+  

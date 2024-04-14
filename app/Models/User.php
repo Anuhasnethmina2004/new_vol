@@ -20,6 +20,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'image',
+        'location',
+        'is_admin',
     ];
 
     /**
@@ -46,9 +50,19 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function projects()
+    public function project()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'user_category');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_enrolls', 'user_id', 'project_id');
     }
 
     /**

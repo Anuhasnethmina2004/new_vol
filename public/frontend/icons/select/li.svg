@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26" height="26" viewBox="0 0 26 26">
+  <defs>
+    <clipPath id="clip-path">
+      <rect x="-1" y="-1" width="26" height="26" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_1172" data-name="Group 1172" transform="translate(1 -2201)">
+    <g id="Scroll_Group_1" data-name="Scroll Group 1" transform="translate(0 2202)" clip-path="url(#clip-path)" style="isolation: isolate">
+      <g id="Group_588" data-name="Group 588">
+        <g id="Ellipse_61" data-name="Ellipse 61" fill="rgba(172,28,67,0.18)" stroke="#77243b" stroke-width="1">
+          <circle cx="12" cy="12" r="12" stroke="none"/>
+          <circle cx="12" cy="12" r="11.5" fill="none"/>
+        </g>
+        <path id="Icon_material-done" data-name="Icon material-done" d="M8.874,15.543l-2.83-2.83-.943.943L8.874,17.43l8.087-8.087L16.017,8.4Z" transform="translate(1.101 -0.785)" fill="#77243b"/>
+      </g>
+    </g>
+  </g>
+</svg>

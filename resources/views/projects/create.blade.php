@@ -33,6 +33,16 @@
                         </div>
                     </div>
                     <div class="md:w-2/3 w-full mb-6">
+                        <label for="title" class="block text-sm font-bold text-gray-700">
+                            Group Link
+                        </label>
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                            <input type="text" name="link" id="title" value="{{ $project->link }}"
+                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
+                                placeholder="Whatsapp or Telegram Group Link">
+                        </div>
+                    </div>
+                    <div class="md:w-2/3 w-full mb-6">
                         <label for="starting_date" class="block text-sm font-bold text-gray-700">
                             Starting Date
                         </label>
@@ -64,6 +74,18 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="categories">Location:</label>
+                        <select name="location" id="location" class="form-control" >
+                            {{-- @foreach(Config::get('constants.SRI_LANKA_CITIES') as$key=> $city) --}}
+                          <option value="kegalle">kegalle</option>
+                          <option value="colombo">colombo</option>
+                          <option value="kandy">kandy</option>
+                          {{-- <option value="kegalle">kegalle</option> --}}
+                          {{-- @endforeach --}}
+                         </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="categories">Select Categories:</label>
                         <select name="categories[]" id="categories" class="form-control" multiple>
                             @foreach($categories as $category)
@@ -72,6 +94,14 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Select Type:</label>
+                        <select name="type" id="type" class="form-control" >
+                            <option value="1" >Project</option>
+                                <option value="2" >Event</option>
+                         </select>
                     </div>
                     
                     

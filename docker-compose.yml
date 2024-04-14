@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  php-env:
+    build: .
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 9300:80
+      - 9301:80
+      - 9302:80
+  db:
+    image: mariadb:10.5.8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 9916:3306
+  dbm:
+    image: mysql:8.0.34
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 9917:3306
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9200:8080

@@ -23,6 +23,14 @@ class Project extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'project_enrolls', 'project_id', 'user_id');
+    }
+    public function tasks()
+    {
+        return $this->hasMany(UserProjectTask::class, 'project_id', 'id');
+    }
     /**
      * Get all of the issues for the Project
      *

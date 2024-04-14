@@ -5,6 +5,27 @@
         </h2>
     </x-slot>
 
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+<script>
+    $(document).ready(function() {
+        // Auto-hide alert messages after 5 seconds
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    });
+</script>
+@if(Auth::user()->is_admin==1) 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-4">
@@ -68,6 +89,83 @@
                             </div>
                         </div>
                     </div>
+                @else
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <div class="flex flex-col">
+                            {{-- @if (count($projects) < 1)
+                                <h3 class="text-lg w-full text-center">You have no Projects</h3>
+                            @else --}}
+                            <div class="flex-grow overflow-auto">
+                                <table class="relative w-full border table-fixed">
+                                    {{-- <thead>/ --}}
+                                        <tr>
+                                            <th class="px-6 py-3 w-1/4 text-gray-900 bg-gray-100">Name</th>
+                                            <th class="px-6 py-3 w-1/2 text-gray-900 bg-gray-100">Description</th>
+                                            <th class="px-6 py-3 w-1/4 text-gray-900 bg-gray-100">Actions</th>
+                                        </tr>
+                                    {{-- </thead> --}}
+                                    {{-- <tbody> --}}
+                                        @foreach ($userProjects as $project)
+                                            <tr>
+                                                <!-- Ensure the widths here match the widths in the header -->
+                                                <td class="px-6 py-3 w-1/4">{{ $project->title }}</td>
+                                                <td class="px-6 py-3 w-1/2">{{ $project->description }}</td>
+                                                <td class="px-6 py-3 w-1/4">
+                                                    @if (!$project->start_time || $project->end_time)
+                                                        <form action="{{ route('tasks.start', $project->id) }}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="button is-icon w-inline-block">Start Task</button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('tasks.end', $project->id) }}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="button is-icon w-inline-block">End Task</button>
+                                                        </form>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    {{-- </tbody> --}}
+                                </table>
+                                
+                                {{-- <table class="relative w-full border table-fixed">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-6 py-3 w-1/4 text-gray-900 bg-gray-100">Name</th>
+                                            <th class="px-6 py-3 w-1/2 text-gray-900 bg-gray-100">Description</th>
+                                            <th class="px-6 py-3 w-1/4 text-gray-900 bg-gray-100">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        @foreach ($userProjects as $project)
+                                            <tr>
+                                                <td>{{ $project->title }}</td>
+                                                <td>{{ $project->description }}</td>
+                                                <td>
+                                                    @if (!$project->start_time || $project->end_time)
+                                                        <form action="{{ route('tasks.start', $project->id) }}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="button is-icon w-inline-block">Start Task</button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('tasks.end', $project->id) }}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="button is-icon w-inline-block">End Task</button>
+                                                        </form>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table> --}}
+                            </div>
+                            
+                            {{-- @endif --}}
+                        </div>
+                    </div>
+                </div>
+                @endif
                 </div>
             </div>
         </div>
