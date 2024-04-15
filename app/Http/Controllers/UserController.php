@@ -14,9 +14,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'status' => 'success',
-            'data' => User::with('issues')->get()
+        $enrolledUsers=  User::get();
+        return view('users.show', [
+            'enrolledUsers'=>$enrolledUsers
         ]);
     }
 

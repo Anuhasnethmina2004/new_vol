@@ -10,7 +10,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Models\ProjectEnroll;
 use App\Models\UserProjectTask;
 use DataTables;
-// dd('sdssdd');
+
 class ProjectController extends Controller
 {
     /**
@@ -20,17 +20,28 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->is_admin==1) {
-        $projects = Project::get();
-        }else{
-            $projects = Project::where('user_id',Auth::user()->id)->get();
+        if (Auth::user()->is_admin == 1) {
+            $projects = Project::get();
+        } else {
+            $projects = Project::where('user_id', Auth::user()->id)->get();
         }
         return view('projects.index', ['projects' => $projects]);
     }
+
+    public function create()
+    {
+        $project = new Project();
+        $categories = Category::all();
+        $projectCategories = [];
+        return view('projects.create', [
+            'project' => $project, 'categories' => $categories, 'projectCategories' => $projectCategories
+        ]);
+    }
+
     public function indexData()
     {
-        $projects = Project::select(['id','title','type', 'description','starting_date','end_date','number_of_hours','location']);
-    
+        $projects = Project::select(['id', 'title', 'type', 'description', 'starting_date', 'end_date', 'number_of_hours', 'location']);
+
         return DataTables::of($projects)->make(true);
     }
     /**
@@ -38,15 +49,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $project = new Project();
-        $categories = Category::all();
-        $projectCategories=[];
-        return view('projects.create', [
-            'project' => $project,'categories'=>$categories,'projectCategories'=>$projectCategories
-        ]);
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -90,30 +93,27 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($project->id);
         // Assuming $categories and $projectCategories are defined as:
-$categories = Category::all();
-$projectCategories = $project->categories->pluck('id')->toArray();
+        $categories = Category::all();
+        $projectCategories = $project->categories->pluck('id')->toArray();
 
-// Filter categories to get only those that are related to the project
-$selectedCategories = $categories->whereIn('id', $projectCategories);
+        // Filter categories to get only those that are related to the project
+        $selectedCategories = $categories->whereIn('id', $projectCategories);
 
-// If you need to work with just the names:
-$selectedCategoryNames = $selectedCategories->pluck('title');
+        // If you need to work with just the names:
+        $selectedCategoryNames = $selectedCategories->pluck('title');
+        $project = Project::with('users')->find($project->id);
 
+        // Check if the project exists
+        if (!$project) {
+            return redirect()->back()->withErrors(['error' => 'Project not found']);
+        }
 
-
-$project = Project::with('users')->find($project->id);
-
-// Check if the project exists
-if (!$project) {
-    return redirect()->back()->withErrors(['error' => 'Project not found']);
-}
-
-// Get all users associated with the project
-$enrolledUsers = $project->users;
-// dd($enrolledUsers);
+        // Get all users associated with the project
+        $enrolledUsers = $project->users;
+        // dd($enrolledUsers);
         // dd($selectedCategoryNames );
         return view('projects.show', [
-            'project' => $project,'categories'=>$categories,'selectedCategoryNames'=>$selectedCategoryNames,'enrolledUsers'=>$enrolledUsers
+            'project' => $project, 'categories' => $categories, 'selectedCategoryNames' => $selectedCategoryNames, 'enrolledUsers' => $enrolledUsers
         ]);
     }
 
@@ -129,7 +129,7 @@ $enrolledUsers = $project->users;
         $categories = Category::all();
         $projectCategories = $project->categories->pluck('id')->toArray();
         return view('projects.create', [
-            'project' => $project,'categories'=>$categories,'projectCategories'=>$projectCategories
+            'project' => $project, 'categories' => $categories, 'projectCategories' => $projectCategories
         ]);
     }
 
@@ -154,27 +154,22 @@ $enrolledUsers = $project->users;
                 'number_of_hours' => $request->number_of_hours,
                 'link' => $request->link,
             ]);
-    
+
             // Retrieve the updated project
             $updatedProject = Project::findOrFail($project->id);
-    
             // Detach existing categories
             $updatedProject->categories()->detach();
-            
             // Attach new categories
             $updatedProject->categories()->attach($request->input('categories'));
-            
-            // Optionally, you may want to use sync() instead of detach() and attach() 
-            // to synchronize the categories efficiently.
-    
+
         } catch (\Exception $ex) {
             // Handle the exception
             return back()->withInput()->withErrors(['error' => 'Failed to update project.']);
         }
-    
+
         return redirect('projects')->with('status', 'Success: Project Updated!');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -194,7 +189,6 @@ $enrolledUsers = $project->users;
         \DB::commit();
 
         return redirect('projects')->with('status', 'Success: Project Deleted!');
-
     }
 
     public function enroll(Project $project)
@@ -223,50 +217,49 @@ $enrolledUsers = $project->users;
 
         // Redirect the user to the project page or any other desired location
         return redirect()->route('welcome')->with('success', 'Successfully enrolled in the project.');
-
     }
 
 
 
     public function start(Project $project)
-{
-    
-    $task = UserProjectTask::where('project_id', $project->id)->where('user_id', auth()->id())
-    ->whereDate('date', now()->toDateString())
-        ->first();
-    // Create a new task record with the start time
-    if($task){
-        return back()->with('error', 'You Completed Today Task. Come Again Tomorrow');
-    }else{
+    {
 
-        $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
+        $task = UserProjectTask::where('project_id', $project->id)->where('user_id', auth()->id())
+            ->whereDate('date', now()->toDateString())
+            ->first();
+        // Create a new task record with the start time
+        if ($task) {
+            return back()->with('error', 'You Completed Today Task. Come Again Tomorrow');
+        } else {
 
-    UserProjectTask::create([
-        'user_id' => auth()->id(),
-        'project_enroll_id' => $projectenroll->id,
-        'project_id' => $project->id,
-        'date' => now()->toDateString(),
-        'start_time' => now()->toTimeString(),
-    ]);
+            $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
 
-    return back()->with('success', 'Task started successfully.');
-}
-}
+            UserProjectTask::create([
+                'user_id' => auth()->id(),
+                'project_enroll_id' => $projectenroll->id,
+                'project_id' => $project->id,
+                'date' => now()->toDateString(),
+                'start_time' => now()->toTimeString(),
+            ]);
 
-public function end(Project $project)
-{
-    $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
-
-    // Find the task record for the project and update its end time
-    $task = UserProjectTask::where('project_enroll_id', $projectenroll->id)
-        ->whereDate('date', now()->toDateString())
-        ->first();
-
-    if ($task) {
-        $task->update(['end_time' => now()->toTimeString()]);
-        return back()->with('success', 'Task ended successfully.');
+            return back()->with('success', 'Task started successfully.');
+        }
     }
 
-    return back()->with('error', 'Task not found.');
-}
+    public function end(Project $project)
+    {
+        $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
+
+        // Find the task record for the project and update its end time
+        $task = UserProjectTask::where('project_enroll_id', $projectenroll->id)
+            ->whereDate('date', now()->toDateString())
+            ->first();
+
+        if ($task) {
+            $task->update(['end_time' => now()->toTimeString()]);
+            return back()->with('success', 'Task ended successfully.');
+        }
+
+        return back()->with('error', 'Task not found.');
+    }
 }

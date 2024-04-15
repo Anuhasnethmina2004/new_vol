@@ -40,7 +40,7 @@
 
                             <div class="mx-5">
                                 <h4 class="text-2xl font-semibold text-gray-700">{{ $projects_count }}</h4>
-                                <div class="text-gray-500">Projects</div>
+                                <div class="text-gray-500">Opportunities</div>
                             </div>
                         </div>
                     </div>
@@ -54,13 +54,13 @@
                             </div>
 
                             <div class="mx-5">
-                                <h4 class="text-2xl font-semibold text-gray-700">{{ $open_issues }}</h4>
-                                <div class="text-gray-500">Open Issues</div>
+                                <h4 class="text-2xl font-semibold text-gray-700">{{ $Category }}</h4>
+                                <div class="text-gray-500">Abilities</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/4 sm:mt-0">
+                    {{-- <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/4 sm:mt-0">
                         <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
                             <div class="p-3 rounded-full bg-red-600 bg-opacity-75">
                                 <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -73,7 +73,7 @@
                                 <div class="text-gray-500">Closed Issues</div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/4 xl:mt-0">
                         <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
