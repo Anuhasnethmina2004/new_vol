@@ -26,7 +26,7 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -38,8 +38,8 @@ class ProfileController extends Controller
         $user = User::findOrFail(Auth::user()->id);
         $categories = Category::all();
         $projectCategories = $user->categories->pluck('id')->toArray();
-       
-        return view('profile.create', ['user' => $user,'categories'=>$categories,'projectCategories'=>$projectCategories]);
+
+        return view('profile.create', ['user' => $user, 'categories' => $categories, 'projectCategories' => $projectCategories]);
     }
 
     /**
@@ -55,43 +55,38 @@ class ProfileController extends Controller
         try {
             // Retrieve the authenticated user
             $user = Auth::user();
-    
             // Update the user's information
-            $imageName='';
-    
+            $imageName = '';
             // Handle image upload
             if ($request->hasFile('image')) {
                 // Get the uploaded file
                 $image = $request->image;
-    // dd($image);
+                // dd($image);
                 // Generate a unique file name
                 $imageName = uniqid('image_') . '.' . $image->getClientOriginalExtension();
-    
+
                 // Move the uploaded file to the desired location
                 $image->move(public_path('uploads'), $imageName);
             }
-                // Update the user's image path in the database
-                // $user->update(['image' => 'uploads/' . $imageName]);
-                $user->update([
-                    'name' => $request->name,
-                    'phone' => $request->phone,
-                    'email' => $request->email,
-                    'location' => $request->location,
-                    'image' => $imageName,
-                    'is_admin' => $request->is_admin,
-                ]);  
+            // Update the user's image path in the database
+            // $user->update(['image' => 'uploads/' . $imageName]);
+            $user->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'location' => $request->location,
+                'image' => $imageName,
+                'is_admin' => $request->is_admin,
+            ]);
             // }
             $updateduser = User::findOrFail($user->id);
-    
             // Detach existing categories
             $updateduser->categories()->detach();
-            
             // Attach new categories
             $updateduser->categories()->attach($request->input('categories'));
             // Handle categories if needed
             // Example: $user->categories()->sync($request->input('categories'));
-    
-            return redirect()->route('profile.edit',Auth::user()->id)->with('success', 'Profile updated successfully.');
+            return redirect()->route('profile.edit', Auth::user()->id)->with('success', 'Profile updated successfully.');
         } catch (\Exception $e) {
             // Log the error or handle it as needed
             dd($e);
@@ -117,6 +112,5 @@ class ProfileController extends Controller
         \DB::commit();
 
         return redirect('category')->with('status', 'Success: Category Deleted!');
-
     }
 }
