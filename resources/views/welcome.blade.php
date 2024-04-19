@@ -3,12 +3,20 @@
 
 <head>
     <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Volunteer Management</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/indweb.css') }}?v={{ config('constants.css_version') }}">
+    <link rel="stylesheet"
+        href="{{ asset('frontend/assets/css/indeepa.indweb.css') }}?v={{ config('constants.css_version') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -404,8 +412,6 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
     @push('styles')
         <style>
             .bg-ash-500 {
@@ -429,30 +435,30 @@
 
 <body class="antialiased" style="background-color: #77879d;">
     {{-- <div class="container"> --}}
-        <nav x-data="{ open: false }" class="bg-white border-b border-gray-100" style="background-color: #4b5563;">
-            <!-- Primary Navigation Menu -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {{-- <div class=" bg-gray-100 dark:bg-gray-900  sm:pt-0"> --}}
-                @if (Route::has('login'))
-                    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                        @auth
-                            <a class="button is-icon w-inline-block" href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
-                        @else
-                            <a class="button is-icon w-inline-block" href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+    <nav x-data="{ open: false }" class="bg-white border-b border-gray-100" style="background-color: #4b5563;">
+        <!-- Primary Navigation Menu -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {{-- <div class=" bg-gray-100 dark:bg-gray-900  sm:pt-0"> --}}
+            @if (Route::has('login'))
+                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
 
-                            @if (Route::has('register'))
-                                <a class="button is-icon w-inline-block" href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                            @endif
-                        @endauth
-                    </div>
-                @endif
-            </div>
-            <br>
-    </div>
-    <br>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
+        </div>
+        <br>
+        </div>
+        <br>
     </nav>
-   
-   
+
+
 
     <script>
         $(document).ready(function() {
@@ -462,39 +468,39 @@
             }, 5000);
         });
     </script>
-<style>
-    body {
-  /* font-size: 120%; */
-}
+    <style>
+        body {
+            /* font-size: 120%; */
+        }
 
-.pancakes-text {
-  font-family: Satisfy, cursive;
-  font-size: 5em;
-  /* margin: 1em 0; */
-  color: SandyBrown;
-  text-shadow: 0.02em 0.02em 0 Brown, 0 0 0.5em violet;
-}
+        .pancakes-text {
+            font-family: Satisfy, cursive;
+            font-size: 5em;
+            /* margin: 1em 0; */
+            color: SandyBrown;
+            text-shadow: 0.02em 0.02em 0 Brown, 0 0 0.5em violet;
+        }
 
-/* .pancakes-text span {
+        /* .pancakes-text span {
   display: block;
   padding-top: 0.6em;
   padding-left: 0.5em;
 } */
-</style>
+    </style>
     <div class="container">
         {{-- <h1>Projects</h1> --}}
         <h1 class="pancakes-text">Volunteer Opportunities</h1>
         @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <table class="table" id="projects-table">
             <thead>
                 <tr>
@@ -560,7 +566,8 @@
                         render: function(data, type, row) {
                             var showUrl = '{{ route('projects.show', ':projectId') }}';
                             showUrl = showUrl.replace(':projectId', row.id);
-                            return '<a href="' + showUrl + '">View</a>';
+                            return '<a class="button is-icon w-inline-block" href="' + showUrl +
+                                '">View</a>';
                         }
                     },
                     {
@@ -568,7 +575,8 @@
                         render: function(data, type, row) {
                             var enrollUrl = '{{ route('project.enroll', ':projectId') }}';
                             enrollUrl = enrollUrl.replace(':projectId', row.id);
-                            return '<a href="' + enrollUrl + '">Enroll</a>';
+                            return '<a class="button is-icon w-inline-block" href="' + enrollUrl +
+                                '">Enroll</a>';
                         }
                     }
 

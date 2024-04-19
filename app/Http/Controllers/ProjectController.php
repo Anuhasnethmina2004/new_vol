@@ -50,7 +50,77 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
+     public function enroll(Project $project)
+     {
+         if (!auth()->check()) {
+             // If user is not authenticated, redirect to login with an error message
+             return redirect()->route('login')->with('error', 'Please log into the system before enrolling.');
+         }
+         // Check if the user is already enrolled in the project
+         $userId = auth()->id();
+         $enrollment = ProjectEnroll::where('project_id', $project->id)
+             ->where('user_id', $userId)
+             ->first();
+ 
+         if ($enrollment) {
+             // If user is already enrolled, show a message
+             return back()->with('error', 'You are already enrolled in this project.');
+         }
+ 
+         // If user is not enrolled, create a new enrollment record
+         ProjectEnroll::create([
+             'project_id' => $project->id,
+             'user_id' => $userId,
+             'started_day' => now(), // Assuming enrollment starts immediately
+         ]);
+ 
+         // Redirect the user to the project page or any other desired location
+         return redirect()->route('welcome')->with('success', 'Successfully enrolled in the project.');
+     }
+ 
+ 
+ 
+     public function start(Project $project)
+     {
+ 
+         $task = UserProjectTask::where('project_id', $project->id)->where('user_id', auth()->id())
+             ->whereDate('date', now()->toDateString())
+             ->first();
+         // Create a new task record with the start time
+         if ($task) {
+             return back()->with('error', 'You Completed Today Task. Come Again Tomorrow');
+         } else {
+ 
+             $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
+ 
+             UserProjectTask::create([
+                 'user_id' => auth()->id(),
+                 'project_enroll_id' => $projectenroll->id,
+                 'project_id' => $project->id,
+                 'date' => now()->toDateString(),
+                 'start_time' => now()->toTimeString(),
+             ]);
+ 
+             return back()->with('success', 'Task started successfully.');
+         }
+     }
+ 
+     public function end(Project $project)
+     {
+         $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
+ 
+         // Find the task record for the project and update its end time
+         $task = UserProjectTask::where('project_enroll_id', $projectenroll->id)
+             ->whereDate('date', now()->toDateString())
+             ->first();
+ 
+         if ($task) {
+             $task->update(['end_time' => now()->toTimeString()]);
+             return back()->with('success', 'Task ended successfully.');
+         }
+ 
+         return back()->with('error', 'Task not found.');
+     }
     /**
      * Store a newly created resource in storage.
      *
@@ -191,75 +261,5 @@ class ProjectController extends Controller
         return redirect('projects')->with('status', 'Success: Project Deleted!');
     }
 
-    public function enroll(Project $project)
-    {
-        if (!auth()->check()) {
-            // If user is not authenticated, redirect to login with an error message
-            return redirect()->route('login')->with('error', 'Please log into the system before enrolling.');
-        }
-        // Check if the user is already enrolled in the project
-        $userId = auth()->id();
-        $enrollment = ProjectEnroll::where('project_id', $project->id)
-            ->where('user_id', $userId)
-            ->first();
-
-        if ($enrollment) {
-            // If user is already enrolled, show a message
-            return back()->with('error', 'You are already enrolled in this project.');
-        }
-
-        // If user is not enrolled, create a new enrollment record
-        ProjectEnroll::create([
-            'project_id' => $project->id,
-            'user_id' => $userId,
-            'started_day' => now(), // Assuming enrollment starts immediately
-        ]);
-
-        // Redirect the user to the project page or any other desired location
-        return redirect()->route('welcome')->with('success', 'Successfully enrolled in the project.');
-    }
-
-
-
-    public function start(Project $project)
-    {
-
-        $task = UserProjectTask::where('project_id', $project->id)->where('user_id', auth()->id())
-            ->whereDate('date', now()->toDateString())
-            ->first();
-        // Create a new task record with the start time
-        if ($task) {
-            return back()->with('error', 'You Completed Today Task. Come Again Tomorrow');
-        } else {
-
-            $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
-
-            UserProjectTask::create([
-                'user_id' => auth()->id(),
-                'project_enroll_id' => $projectenroll->id,
-                'project_id' => $project->id,
-                'date' => now()->toDateString(),
-                'start_time' => now()->toTimeString(),
-            ]);
-
-            return back()->with('success', 'Task started successfully.');
-        }
-    }
-
-    public function end(Project $project)
-    {
-        $projectenroll = ProjectEnroll::where('project_id', $project->id)->where('user_id', auth()->id())->first();
-
-        // Find the task record for the project and update its end time
-        $task = UserProjectTask::where('project_enroll_id', $projectenroll->id)
-            ->whereDate('date', now()->toDateString())
-            ->first();
-
-        if ($task) {
-            $task->update(['end_time' => now()->toTimeString()]);
-            return back()->with('success', 'Task ended successfully.');
-        }
-
-        return back()->with('error', 'Task not found.');
-    }
+   
 }
